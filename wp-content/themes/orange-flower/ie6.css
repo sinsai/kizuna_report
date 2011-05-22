@@ -1,0 +1,11 @@
+#cats li {
+  scrollbar-face-color: expression(
+    runtimeStyle.scrollbarFaceColor = '#fff',
+    onmouseover = function() {this.className += ' hover'},
+    onmouseout = function() {this.className = this.className.replace(/ hover/g, '')}
+  );
+}
+blockquote, section {height: 1%}
+aside h3 {position: relative}
+#left {width: 200px}
+#lrc #right {left: 200px}
