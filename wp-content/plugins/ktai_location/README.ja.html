@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Ktai Location 説明書</title>
+<style type="text/css">
+h1 {text-align:center;}
+h2 {color:white; background: maroon;}
+h3 {width:50%; color: white; background: maroon;}
+h3 a {color:lightblue;}
+h4 {width:33%; border-bottom:dotted 1px maroon;}
+dt {font-weight:bold;}
+dd {margin-bottom:0.5em;}
+li {line-height:1.5em;}
+.navi {text-align:center;}
+table {border-top:1px solid black;border-left:1px solid black;border-collapse:collapse}
+table th {border:0 none;border-right: solid 1px black;border-bottom: solid 1px black;}
+table td {border:0 none;border-right: solid 1px black;border-bottom: solid 1px black; text-align:center}
+td.feature {text-align:left;}</style>
+</head>
+<body>
+<h1>Ktai Location マニュアル</h1>
+
+<p>プラグイン配布サイト: <a href="http://wppluginsj.sourceforge.jp/ktai_location/">http://wppluginsj.sourceforge.jp/ktai_location/</a></p>
+
+<h3 id="abstract">概要</h3>
+<p>Ktai Location は、携帯電話で測位した情報、添付写真の EXIF データーに埋め込まれた GPS 情報、本文に記入した地名などから位置情報 (緯度・経度) をメタデーターとして保存するプラグインです。取り出した位置情報は、"Lat_Long" という名前のカスタムフィールドとして保存します。測位系は WGS84 に変換します。</p>
+<p>以下の位置情報サービスにおける地図 URL に対応しています。</p>
+<dl>
+  <dt><a href="http://www.au.kddi.com/ez_naviwalk/">EZナビウォーク</a></dt><dd>地図 URL は http://walk.eznavi.jp/map/?...</dd>
+  <dt><a href="http://www.nttdocomo.co.jp/service/location/">ドコモ GPS・位置情報</a></dt><dd>地図 URL は http://docomo.ne.jp/cp/map.cgi?...</dd>
+  <dt><a href="http://map.yahoo.co.jp/promo/mobile/">モバイル Yahoo! 地図情報</a></dt><dd>地図 URL は http://map.mobile.yahoo.co.jp/mpl?... または  http://maps.mobile.yahoo.co.jp/mpl?...</dd>
+  <dt><a href="http://www.navitime.co.jp/pcstorage/html/help/maps04.html#n12">NAVITIME</a></dt><dd>地図 URL は http://map.navitime.jp/?...</dd>
+  <dt><a href="http://www.zenrin-datacom.net/mobile/gps/sousa.html">ゼンリンいつもナビ</a></dt><dd>地図 URL は http://i.i.zenrin.co.jp/MapToLink/p1?..., http://mobile.its-mo.com/p1?..., http://mobile.its-mo.com/MapToLink/p2?... または http://v.its-mo.com/zv/menu/ar5/jskycmi/.../ar5?...</dd>
+  <dt><a href="http://www.mapfan.com/mobile/mapfan/service.html#step2">MapFan「どこです? メール」</a></dt><dd>地図 URL は http://kokomail.mapfan.com/receive.cgi?...,  http://i.mapfan.com/m.cgi?... または http://v.mapfan.com/sgps.cgi/jskycmi/.../sgps.cgi?</dd>
+  <dt><a href="http://ekitan.com/k-tai/service/">駅探★乗換案内</a></dt><dd>地図 URL は http://imode.ekitan.com/norikae/g_map/M1?...</dd>
+  <dt><a href="http://www.mapion.co.jp/mobile/">マピオン</a></dt><dd>地図 URL は http://i.mapion.co.jpc/f?... または http://v.mapion.co.jp/c/f/jskycmi/.../f?...</dd>
+  <dt><a href="http://suiteru.jp/mycarnavi.asp">マップル地図ナビ乗換</a></dt><dd>地図 URL は http://imode.tmw.mti.ne.jp/iarea/action.go?.. または http://s.mti.ne.jp/mapple/gps/ShowMap2.asp?...</dd>
+  <dt><a href="http://www.chizumaru.com/menu/mobile/index.htm">ちず丸</a></dt><dd>地図 URL は http://imode.chizumaru.com/czi/dsp/dsp.aspx?...</dd>
+</dl>
+<p>このプラグインは、位置情報を "Lat_Long" という名前のカスタムフィールドに記録するだけなので、単体ではあまり価値がありません。この位置情報を活用する他のプラグインと併用することが前提となります。今のところ、以下のような連携プラグインがあります。</p>
+<ul>
+  <li>Google Maps を貼り込むプラグイン「<a href="http://wppluginsj.sourceforge.jp/lightweight-google-maps/">Lightweight Google Maps</a>」</li>
+  <li><a href="http://wppluginsj.sourceforge.jp/wp-ottenki/">wp-otenki</a> が取り込むお天気の地域を変更するプラグイン「<a href="http://wppluginsj.sourceforge.jp/ktailoc2otenki/">KtaiLoc2Otenki</a>」</li>
+</ul>
+
+<h3 id="requirements">対応環境</h3>
+<ul>
+  <li>WordPress 2.0 以降。2.5 系統も対応しています。</li>
+  <li>PHP 4.2.0 以降。ただし、動作確認は PHP 5.2.x で行なっていますので、それ以前のバージョンによって動かないかもしれません。PHP 5.0.x, 5.1.x をご利用の場合は、自己責任にてご利用をお願いします。</li>
+  <li>PHP の EXIF 拡張モジュール。ほとんどの環境では --enable-exif オプション付きで PHP がコンパイルされているはずなので問題ないでしょう。そうでない場合は EXIF 読み取り機能が使えません。位置情報 URL 読み取り機能だけ有効となります。</li>
+  <li>Geocoding を使う場合、サーバーから Google Maps API にアクセスできることが必要です。ファイアーウォール内で外部アクセスに制約がある場合は、使えないかもしれません。</li>
+</ul>
+
+<h3 id="installation">設置方法</h3>
+<ol>
+  <li>現在、<a href="http://dev.wp-plugins.org/wiki/GeoPlugin">Geo プラグイン</a>、<a href="http://wppluginsj.sourceforge.jp/wp-eznavi/">wp-eznavi プラグイン</a>等を利用している場合は、機能の競合の可能性があるため、無効にしてください。</li>
+  <li>Ktai Location プラグインをダウンロードして展開します。</li>
+  <li>(バージョン 0.9.0 以降の) Lightweight Google Maps プラグインを利用している、もしくは、Geocoding 機能を使わない場合、そのまま ktai_location.php ファイルを FTP ソフト等でプラグインディレクトリーに転送します。<br />
+  Lightweight Google Maps プラグインを使用しておらず、かつ、Geocoding 機能を使う場合は、Google Maps API キーをプラグイン本体に記入します。34行目の define 文のコメントを外し、XXXXXXXXXX 部分に取得した API キーを記入します。Google Maps API を持っていない場合、<a href="http://www.google.com/apis/maps/signup.html">取得して</a>ください。</li>
+  <li>プラグインを有効にします。</li>
+  <li>Geo プラグインを使っていた場合は、Lightweight Google Maps プラグインの設定画面で、位置情報を "Lat_Long" カスタムフィールドに変換してください。もしくは、mysql コマンドライン (phpmyadmin の SQL 直接入力でも可) で以下のコマンドを実行してください (テーブル名 wp_postmeta は各自の環境に合わせて調整してください)。<pre>
+    DELETE FROM wp_postmeta WHERE meta_key = '_geo_location' AND meta_value = ',';
+    UPDATE wp_postmeta SET meta_key = 'Lat_Long' WHERE meta_key = '_geo_location';
+</pre></li>
+  <li>WordPress 2.3 以降を使っている場合、本プラグインの更新を知らせるために、別途「<a href="http://wppluginsj.sourceforge.jp/jseries-notifier/">JSeries Notifier</a>」をインストールされることをおすすめします。</li>
+  <li>バージョン 1.0.0〜1.0.2 からアップグレードする場合、高さ情報がないのに2つめのコンマがある Lat_Long フィールドを修正するため、phpMyAdmin や mysql コマンドラインで以下の SQL コマンドを実行してください (wp_ という接頭辞は適宜変更してください)。実行しない場合、Lat_Long フィールドを使う他のプラグインで軽微な問題が出ることがあります。
+  <pre>UPDATE wp_postmeta SET meta_value = SUBSTRING_INDEX(meta_value, ',', 2) WHERE meta_key = 'Lat_Long' AND SUBSTRING(meta_value, -1, 1) = ',';</pre></li>
+</ol>
+
+<h3 id="usage">使用方法</h3>
+<p>※メールで WordPress に投稿する (モブログ) するツールについては、<a href="http://wppluginsj.sourceforge.jp/ktai_entry/#comparison">Ktai Entry と他ツールの比較表</a>を参考にしてください。</p>
+<dl>
+<dt id="au">◆au 携帯電話の場合</dt>
+<dd><ul>
+  <li>カメラを起動してから、GPS 情報付加→付加する→現在地、とメニュー選択すると測位を行います。その後、写真撮影すると位置情報付きの写真が撮影できますので、その写真を添付してモブログ投稿します。先に写真撮影して、GPS 情報付加しても構いません。</li>
+  <li>または、EZナビウォークの「<a href="http://www.au.kddi.com/manual/w42ca/eznavi/eznavi05.html">現在地メール</a>」機能を使って、位置情報付きのメールを作ります。あとは、題名・添付写真・本文を入力してメール投稿します。「[GPS情報URL]」の文字列は残っていても、投稿時は見えないよう処理されます。</li>
+</ul></dd>
+<dt id="docomo-gps">◆ドコモ携帯 (GPS 対応) の場合</dt>
+<dd><ul>
+  <li>カメラを起動してから、位置情報付加→現在地確認すると測位を行います。その後、写真撮影すると位置情報付きの写真が撮影できますので、その写真を添付してモブログ投稿します。</li>
+  <li>もしくは、パラボラアンテナマークのキーを長押しすると現在地を測位して地図を表示できますので、ここから「URL 付きメール作成」し、モブログ投稿します。</li>
+  <li>または、「iエリア-周辺情報-」を開いて、エリア名のすぐ下にある住所 (○○県□□市付近、など) をクリックすると「位置情報利用」ウィンドウが出ます。「メール貼り付け」を選んで地図 URL 付きのメールを作ることができますので、題名・添付写真・本文を入力してメール投稿します。</li>
+</ul></dd>
+<dt id="docomo-iarea">◆ドコモ携帯 (GPS なし) の場合</dt>
+<dd><ol>
+  <li>「iエリア-周辺情報-」を開いて「6.地図」を選びます。</li>
+  <li>iMapFan／iマピオン／ゼンリン／ちず丸／NAVITIME／マップル、のいずれかのサービスを選択し、最寄りのランドマークを選んで地図を出します。</li>
+  <li>「URL 付きメール作成」や「iモードメール作成→URL貼付」などとすれば、地図 URL 付きのメールを作ることができますので、題名・添付写真・本文を入力してメール投稿します。</li>
+</ol></dd>
+<dt id="s-gps">◆ソフトバンク携帯 (GPS 対応) の場合</dt>
+<dd><ol>
+  <li>S!GPS ナビの「現在地メール」機能を使って、位置情報付きのメールを作ります。もしくは、Yahoo! ケータイ「調べる」→「地図」を選んで Yahoo! 地図情報を開き、「現在地から検索」で測位して、ソフトメニューの「メニュー」→「便利機能」→「URL送信」のように操作して (機種によって多少違いあり)、閲覧中ページの URL を本文に入れたメールを作成します。<br />
+  (注意)「この地図を友だちに教える」機能でメールを作ると、緯度・経度が出ないため、使ってはいけません。</li>
+  <li>あとは、題名・添付写真・本文を入力してモブログ投稿します。URL の前の「地図表示: 」や「[GPS情報]」の文字列は残っていても、投稿後、見えないよう処理されます。</li>
+  </ol>
+  なお、Yahoo! 地図情報以外で対応している地図 URL は、NAVITIME、ゼンリン its-moNavi、MapFan, MapFan どこです?メール、マピオン、マップル地図乗換です。</dd>
+<dt id="yahoo">◆ソフトバンク携帯 (GPS なし) の場合</dt>
+<dd><ol>
+  <li>Yahoo! ケータイ「調べる」→「地図」を選んで Yahoo! 地図情報を開きます。</li>
+  <li>最寄りのランドマークを選び、地図を移動させて現在地を中心に持ってきます。</li>
+  <li>ソフトメニューの「メニュー」→「便利機能」→「URL送信」のように操作すれば (機種によって多少違いあり)、閲覧中ページの URL を本文に入れたメールを作成できるので、タイトル・添付写真・本文を入力してメール投稿します。「URL:」の文字列は残っていても見えないよう処理されます。<br />
+  (注意)「この地図を友だちに教える」機能でメールを作ると、緯度・経度が出ないため、使ってはいけません。</li>
+</ol></dd>
+<dt id="emobile">◆イー・モバイル音声端末の場合</dt>
+<dd>S11HT の場合、レジストリ編集などで、カメラ撮影した画像に GPS 情報を付与するように設定してください (<a href="http://dekiru.impress.co.jp/blog/2008/04/emonster_s11ht_gps.html">KaiserTweak を使う方法</a>)。あとは、撮影した画像をメールに添付してモブログ投稿するだけです。</dd>
+<dd>H11T の場合、次のようにして「現在地メール」を作成します。<ol>
+  <li>NAVITIME アプリを起動し、現在地を測定します。</li>
+  <li>地図が表示されたら決定キーを押してメニューを出し、「2 ナビゲーションメニュー」を選びます。</li>
+  <li>下の方にある「この場所をメールで送る」をクリックします。</li>
+  <li>「アプリを終了して以下サイトに接続します」に「はい」を選びます。</li>
+  <li>「下記リンクからメールを送信してください」画面で「メールを送信する」を選びます。</li>
+  <li>題名が住所、本文に位置情報 URL が挿入されたメール作成画面になるので、題名を変更し、宛先、本文、写真を適宜入力してモブログ投稿してください。</li>
+</ol></dd>
+<dt id="exif">◆GPS 対応デジカメ</dt>
+<dd>GPS と連動できるデジタルカメラの場合、撮影した写真をパソコンに取り込み、ウェブログにアップロードした後、写真を「画像にリンクする」状態で本文に貼り込んでください (サムネールをクリックしたら写真のみが出るようにする)。そうして投稿すると位置情報が読み取られます。「ページへのリンク」では位置情報が読めません。<br />通常のデジカメでも、SONY の <a href="http://www.sony.jp/products/Consumer/Peripheral/GPS/GPS-CS1K/">GPS-CS1K</a> を併用すれば、写真に GPS 位置情報を付与できます。</dd>
+<dt id="geocoding">◆地名から緯度・経度を割り出す (Geocoding)</dt>
+<dd>投稿本文の任意の場所において、地名や住所を [geo]〜[/geo] というタグで囲みます。こうすると、Google Maps API を利用して緯度・経度に変換します。投稿結果からは [geo] タグは削除されます (タグの中身は残ります)。候補がなかったり、Google API の反応がなかった場合、[geo] タグは削除されるものの、(タグの中身である) 地名の後ろに、以下のようなエラー表示が付加されます。<pre>
+(Geocoding error: XXX)
+(Geocoding no response)
+</pre></dd>
+</dl>
+
+<h3 id="notice">注意事項</h3>
+<ul>
+  <li>位置情報の読み取りは投稿の公開時および編集時です。ただし、すでに "Lat_Long" カスタムフィールドが存在する場合は、位置情報を読み取らず、既存のフィールドをそのままにします。</li>
+  <li>位置情報 URL や GPS 情報つき写真を差し替えたなど、"Lat_Long" フィールドを更新したい場合は、まず既存の Lat_Long カスタムフィールドをすべて削除し、本文中の 位置情報 URL を囲む div タグ (&lt;div class="locationurl"&gt; および &lt;/div&gt;) を削除してから、投稿を編集・保存してください。</li>
+  <li>位置情報 URL、GPS 情報を持つ写真、 [geo]〜[/geo] で囲んだ地名が複数ある場合、すべての位置情報について "Lat_Long" フィールドが生成されます。ただし、同一地点の位置情報は無視されます。「同一地点」とは、緯度・経度の百分率値を小数点以下5ケタ目で四捨五入した値が同一である場合です。</li>
+  <li>Geocoding の結果が複数候補ある場合、Google が一番上位に回答した地点1か所だけを採用します。</li>
+  <li>"Lat_Long" フィールドの生成順序は、位置情報 URL、写真 の GPS 情報、地名からの Geocoding 結果の順です。</li>
+</ul>
+
+<h3 id="difference-to-wp-eznavi">wp-eznavi との相違点</h3>
+<ul>
+  <li>保存する位置情報は Geo プラグインとは非互換になりました (フォーマットはほぼ同一ですが;-)。このため Geo プラグインをイントールしても無意味です。</li>
+  <li>設定画面はなくなりました。</li>
+  <li>デフォルトで、位置情報 URL は隠されるようになっています (スタイルシートの display:none を適用)。このため、位置情報 URL にアンカータグを適用する機能も削除しました。</li>
+  <li>wp-otenki と連携する「実験的実装」は別プラグイン <a href="http://wppluginsj.sourceforge.jp/ktailoc2otenki/">KtaiLoc2otenki</a> として分離しました。</li>
+</ul>
+
+<h2 id="history">改版履歴</h2>
+<dl>
+<dt>ver 1.0.3 (2008-08-06)</dt>
+<dd><ul>
+  <li>位置情報同一である条件を「小数点以下5ケタ目で四捨五入した結果が一致する」に緩和しました。</li>
+  <li>Ktai Location 1.0.0 以降で、位置情報に高さ情報がないのに、Lat_Long フィールドに2つめのコンマを付けてしまっていた問題を修正しました。Lightiweight Google Maps の 1.30 以前で、緯度経度を指定して地図を表示したとき、このような Lat_Long フィールドを認識しない問題があります。</li>
+</ul></dd>
+<dt>ver 1.0.2 (2008-06-15)</dt>
+<dd><ul>
+  <li>Ktai Location 1.0.1 において、Yahoo! 地図情報の地図 URL のフォーマットが小数点表記の場合を認識しなくなっていた不具合を修正しました。(Ktai Location 1.0.1 のみ存在するバグ)</li>
+</ul></dd>
+<dt>ver 1.0.1 (2008-06-11)</dt>
+<dd><ul>
+  <li>Yahoo! 地図情報で、地図 URL のフォーマットが度分秒表記の場合に対応しました。詳細地図を出したり地図をスクロールさせた場合に度分秒表記になってしまうため、前バージョンでは位置情報が読めませんでした。</li>
+  <li>ソフトバンク携帯電話で MapFan の地図 URL (http://v.mapfan.com/...) およびゼンリンいつもナビの地図 URL (http://v.itsu-mo.com/...) に対応しました。</li>
+  <li>ゼンリンいつもナビ PC 版から携帯にメールで地図 URL を送る場合のフォーマット(http://mobile.its-mo.com/p1?128219829-502437693-6) に対応しました。</li>
+</ul></dd>
+<dt>ver 1.0.0 (2008-06-05)</dt>
+<dd><ul>
+  <li>Yahoo! 地図情報、駅探★乗換案内、マップル地図ナビ乗換、ちず丸の地図 URL に対応しました。</li>
+  <li>JPEG 画像に貼り込んだ GPS 位置情報が高さ (altitude) を含む場合、これも Lat_Long フィールドの第3引数として保存するようにしました。</li>
+  <li>使い方で、ソフトバンク GPS なし端末および、イー・モバイル音声端末 (S11HT, H11T) の場合の使い方を追記しました。</li>
+  <li><a href="http://wppluginsj.sourceforge.jp/ktai_entry/">Ktai Entry</a> と併用したとき、位置情報 URL を div 要素で囲んだ部分が XHTML 文法違反になってしまう不具合を修正しました。なお、以前の投稿はそのままですので、手作業で修正願います。div 要素の直後や中に p 要素の閉じタグ (&lt;/p&gt;) があれば、それを div 要素の直前に持っていけばよいです。</li>
+</ul></dd>
+<dt>ver 0.99 (2008-04-29)</dt>
+<dd><ul>
+  <li>"Lat_Long" フィールドが存在しない場合は、投稿の編集時にも位置情報を読み取るようにしました。(従来は隠し機能でした)</li>
+  <li><a href="http://wppluginsj.sourceforge.jp/ktai_style/">Ktai Style</a>, <a href="http://hrlk.com/script/mobile-eye-plus/">Mobile Eye+</a> で閲覧したときは、位置情報 URL を削除するようにしました。(ただし、Ktai Style にはすでに同機能が実装されています)</li>
+  <li><a href="http://wppluginsj.sourceforge.jp/ktai_entry/">Ktai Entry</a>, <a href="http://junklog.cocolog-nifty.com/blog/wp_mobg/">MobG</a>, <a href="http://spais.jp/output/wp-mb_mail/">wp-mb_mail</a> でメール投稿した場合、写真の GPS 位置情報が読み取られないことがある不具合を修正しました。</li>
+</ul></dd>
+<dt>ver 0.98 (2007-08-12)</dt>
+<dd><ul>
+  <li>MapFan の「<a href="http://www.mapfan.com/kokomail/">ここです!メール</a>」に対応しました。</li>
+  <li>WordPress 2.0 系列で、位置情報 URL を div で囲む処理がされないバグを修正しました。</li>
+</ul></dd>
+<dt>ver 0.97 (2007-03-13)</dt>
+<dd><ul>
+  <li>ほかに本文の内容を修正するようなプラグイン (拙作の <a href="http://wppluginsj.sourceforge.jp/force-wave-dash/">Force Wave Dash</a> 等) と併用したとき、位置情報 URL が隠されないバグを修正しました。</li>
+</ul></dd>
+<dt>ver 0.96 (2007-03-05)</dt>
+<dd>いくつかのバグを修正しました。<ul>
+  <li>S!GPS で、機種によって位置情報 URL が読めない可能性があるバグ。</li>
+  <li>ドコモ iエリアで、位置情報URLの直前の行が隠されてしまう可能性があるバグ。</li>
+  <li>ファイアーウォールの中など、Google Maps API にアクセスできない場合にプラグインがエラーで停止するバグ。</li>
+</ul></dd>
+<dt>ver 0.95 (2007-02-26)</dt>
+<dd><ul>
+  <li>地名や住所から緯度・経度を求める機能 (Geocoding) を追加しました。</li>
+  <li>バージョン体系を変更して、ドットを1つだけ使うスタイルにしました。従来通りならば今回のバージョンは 0.9.5 となりますが、それを 0.95 とします。</li>
+</ul></dd>
+<dt>ver 0.9.2 (2007-02-17)</dt>
+<dd><ul>
+  <li>ドコモ GPS 搭載機種で動作しなかったバグを修正しました。</li>
+  <li>作者サイトの URI を変更しました。</li>
+</ul></dd>
+<dt>ver 0.9.1 (2007-02-13)</dt>
+<dd><ul>
+  <li>S!GPS において NAVITIME の URL を送出する機種にも対応しました。</li>
+</ul></dd>
+<dt>ver 0.9.0 (2007-01-28)</dt>
+<dd><ul>
+  <li>複数の位置情報がある場合、すべて Lat_Long カスタムフィールドに保存するようにしました。</li>
+  <li>ドコモ GPS 搭載機種、S!GPS 搭載機種に対応しました。</li>
+  <li>画像の EXIF GPS 情報が TOKYO 測位系で、かつ GPS Altitude (高度) がセットされている場合、より厳密な変換式を利用するようにしました。</li>
+</ul></dd>
+<dt>ver 0.8.0 (2007-01-24)</dt>
+<dd><ul>
+  <li>NAVITIME に対応。配布サイトを WordPress Plugins/JSeries に変更しました。</li>
+</ul></dd>
+<dt>ver 0.7.1 (2007-01-19)</dt>
+<dd><ul>
+  <li>記事中に img タグがあるとき、その画像ファイルを読み取る処理を改善して、ファイルにアクセスできない現象に対処しました。
+</ul></dd>
+<dt>ver 0.7.0 (2007-01-18)</dt>
+<dd><ul>
+  <li>新規リリース。</li>
+</ul></dd>
+</dl>
+<p>以上</p>

@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Language" content="ja">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Mobile Eye+ v1.2 ヘルプ</title>
+<style type="text/css">
+<!--
+body { font-size; 100%; padding: 0; margin: 0; }
+h1 { color: #fff; background-color: #00f; padding: 5px 20px; }
+h2 { color: #fff; background-color: #00f; padding: 3px 15px; margin-left: 10px; margin-top: 1em; }
+p { margin-left: 25px; }
+code { padding: 2px; border: 1px solid #aaf; color: #000; background-color: #ccf; }
+li li { font-weight: bold; }
+li.text { font-weight: normal; margin-bottom: 10px; margin-left: 10px; list-style-type: none; }
+.argmt { color: #055; }
+-->
+</style>
+</head>
+<body>
+※作りかけ
+<h1>Mobile Eye+ v1.2 ヘルプ</h1>
+<ol>
+<li><a href="#what">Mobile Eye+の概要</a></li>
+<li><a href="#how">設置方法</a></li>
+<li><a href="#func">テーマで使える独自の関数</a></li>
+<li><a href="#theme">テーマで読み込まれるファイル</a></li>
+<li><a href="#gate">URLGATEに使われているサイト</a></li>
+</ol>
+
+<h2 id="what">Mobile Eye+の概要</h2>
+<p>WordPressを携帯電話から快適に閲覧可能にするプラグイン。<br />
+コンパクトに表示させることができ、パケット通信量を軽減できる設計になっている。<br />
+また、Version1.2から表示をテーマによる管理が可能になっている。</p>
+
+
+<h2 id="how">設置方法</h2>
+<ol>
+<li>WordPressの[plugin]ディレクトリに<strong>[mobile_eye]</strong>ディレクトリごとアップロード</li>
+<li><strong>mobile-comments-post.php</strong>をWordPressの設置してあるディレクトリにアップロード</li>
+<li>それぞれのファイルのパーミッションを変更</li>
+<li>WordPressの管理画面でプラグイン「Mobile Eye+」を有効</li>
+<li>WordPressの管理画面でオプション「MobileEye+」の設定</li>
+</ol>
+
+<h2 id="func">テーマで使える独自の関数</h2>
+<ul>
+<li id="mb_header"><em>mobile_header()</em></li>
+<li class="text">選択されたテーマの header.php を読み込む関数</li>
+<li id="mb_footer"><em>mobile_footer()</em></li>
+<li class="text">選択されたテーマの footer.php を読み込む関数</li>
+<li id="mb_com"><em>mobile_comments()</em></li>
+<li class="text">選択されたテーマの comments.php を読み込む関数</li>
+<li><em>mobile_title()</em></li>
+<li class="text">ブログのタイトルを出力</li>
+<li id="mb_gtbginf"><em>mobile_get_bloginfo(<span class="argmt">$str</span>)</em></li>
+<li class="text">
+ブログの情報などを取得する関数<br />
+現在 <span class="argmt">$str</span> で指定できる文字列
+	<ul>
+	<li>home</li>
+	<li class="text">get_settings('home')から取得した絶対パス</li>
+	<li>siteurl</li>
+	<li class="text">get_settings('siteurl')から取得した絶対パス</li>
+	<li>version</li>
+	<li class="text">WordPressの目安のVersion、MEにも対応</li>
+	<li>plg_version</li>
+	<li class="text">Mobile Eye+のVersion</li>
+	<li></li>
+	<li class="text"></li>
+	</ul>
+</li>
+<li><em>mobile_bloginfo(<span class="argmt">$str</span>)</em></li>
+<li class="text"> <a href="#mb_gtbginf"><em>mobile_get_bloginfo(<span class="argmt">$str</span>)</em></a> を出力するだけの関数<br />
+<span class="argmt">$str</span> で指定できる文字列は <a href="#mb_gtbginf"><em>mobile_get_bloginfo(<span class="argmt">$str</span>)</em></a> と同じ<br />
+<code>echo mobile_get_bloginfo(<span class="argmt">$str</span>)</code> と等価</li>
+<li><em></em></li>
+<li class="text"></li>
+<li><em></em></li>
+<li class="text"></li>
+<li><em>is_mobilehome()</em></li>
+<li class="text">全くqueryなどを含まないブログのHOMEの場合 <strong>TRUE</strong> を返す<br />
+<code>($_SERVER['REQUEST_URI'] == mobile_get_bloginfo('home'))</code> と等価</li>
+<li id="ismenu"><em>is_menu()</em></li>
+<li class="text">メニューのページの場合 <strong>TRUE</strong> を返す<br />
+<code>($_GET['view'] == 'menu')</code> と等価</li>
+<li><em>is_comments()</em></li>
+<li class="text">コメントのページの場合 <strong>TRUE</strong> を返す<br />
+<code>($_GET['view'] == 'com')</code> と等価</li>
+<li><em>is_trackbacks()</em></li>
+<li class="text">トラックバックのページの場合 <strong>TRUE</strong> を返す<br />
+<code>($_GET['view'] == 'tra')</code> と等価</li>
+<li><em>is_write()</em></li>
+<li class="text">書き込みフォームのページの場合 <strong>TRUE</strong> を返す<br />
+<code>($_GET['view'] == 'wrt')</code> と等価</li>
+<li><em>mobile_permalink(<span class="argmt">$int = 0</span>)</em></li>
+<li class="text"></li>
+<li><em>mobile_comments_link(<span class="argmt">$str1</span>, <span class="argmt">$str2</span>, <span class="argmt">$str3</span>, <span class="argmt">$str4</span>)</em></li>
+<li class="text"></li>
+<li><em>mobile_trackbacks_link(<span class="argmt">$str1</span>, <span class="argmt">$str2</span>, <span class="argmt">$str3</span>, <span class="argmt">$str4</span>)</em></li>
+<li class="text"></li>
+<li><em>mobile_comment_text()</em></li>
+<li class="text"></li>
+<li><em></em></li>
+<li class="text"></li>
+<li><em></em></li>
+<li class="text"></li>
+</ul>
+
+<h2 id="theme">テーマで読み込まれるファイル</h2>
+<p>選択されたテーマにファイルがない場合は <strong>defaultテーマ</strong> のファイルを読み込む(function.phpを除く)</p>
+<ul>
+<li>header.php</li>
+<li class="text">ヘッダーとなるファイル。<br />
+menu.php, index.php, entry.php から <a href="#mb_header"><em>mobile_header()</em></a> で読み込まれる。</li>
+<li>footer.php</li>
+<li class="text">フッターとなるファイル。<br />
+menu.php, index.php, entry.php から <a href="#mb_footer"><em>mobile_footer()</em></a> で読み込まれる。</li>
+<li>menu.php</li>
+<li class="text">ナビゲーションなどに使うメニューのページ。<br />
+クエリに <strong>view=menu</strong> がある場合(<a href="#ismenu"><em>is_menu()</em></a>が<strong>TRUE</strong>の時)に読み込まれる。</li>
+<li>index.php</li>
+<li class="text">TOPページなど記事の一覧を表示するファイル。<br />
+menu.php, entry.phpが読み込まれない時、読み込まれる。</li>
+<li>entry.php</li>
+<li class="text">投稿/記事を表示するファイル。<br />
+<code>( is_single() || is_page() )</code>が<strong>TRUE</strong>の時、読み込まれる</li>
+<li>comments.php</li>
+<li class="text">コメント, トラックバック, 書き込みフォームなどを表示するファイル。<br />
+entry.php から <a href="#mb_com"><em>mobile_comments()</em></a> で読み込まれる。</li>
+<li>function.php</li>
+<li class="text">選択されたテーマに存在すれば自動で読み込む。<br />
+ユーザ独自に関数を定義したい場合に用いる。</li>
+</ul>
+
+
+<h2 id="gate">URLGATEに使われているサイト</h2>
+<p>基本的には携帯では見れないメディアを変換して表示してくれるサイト</p>
+<ul>
+<li><a href="http://srea.jp/">画像リサイズ - srea.jp</a></li>
+<li class="text">[画像URLGET]というPCサイト変換もある携帯向けweb上の画像リサイズサイト<br />
+詳しくは「<a href="http://srea.jp/what.php">初めての方</a>」<br /></li>
+<li><a href="http://fileseek.net/">ファイルシーク - fileseek.net</a></li>
+<li class="text">PCサイト閲覧, 動画/画像変換や検索など幅広い機能を持ったサイト<br />
+詳しくは「<a href="http://fileseek.net/help.html">ファイルシークについて</a>」</li>
+<li><a href="http://pic.to/">ピクト - pic.to</a></li>
+<li class="text">簡単にweb上の画像を携帯用に変換できるサイト<br />
+詳しくは「<a href="http://www.pic.to/about_picto.html">ピクトって？</a>」</li>
+<li><a href="http://www.google.co.jp/m/">Googleモバイル検索 - google.co.jp</a></li>
+<li class="text">auの公式検索にも使われているページ変換<br />
+詳しくは「<a href="http://www.google.co.jp/m/help">ヘルプと利用規約</a>」</li>
+<li><a href="http://www.sjk.co.jp/">通勤ブラウザ - sjk.co.jp</a></li>
+<li class="text">有名どころのPCサイト変換、他にも通勤メールなどあり<br />
+詳しくは「<a href="http://www.sjk.co.jp/index_hajimete.html">初めての方</a>」</li>
+<li><a href="http://mobazilla.ax-m.jp/">mobazilla - mobazilla.ax-m.jp</a></li>
+<li class="text">携帯向け公式サイトもやっているアクセルマーク株式会社の提供するPCサイト変換<br />
+内部的には<a href="http://www.rcdtokyo.com/pc2m/note/">pc2m</a>が基本となっている模様<br />
+詳しくは「<a href="http://www.axelmark.co.jp/admin/pr/files/01_154_060824.pdf">プレスリリース（※PDFファイル）</a>」</li></li>
+<li><a href=""></a></li>
+<li class="text"></li>
+</ul>
+
+<ul>
+<li></li>
+<li class="text"></li>
+<li></li>
+<li class="text"></li>
+</ul>
+</body>
+</html>

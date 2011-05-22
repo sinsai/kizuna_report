@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Lightweight Google Maps 説明書</title>
+<style type="text/css">
+h1 {text-align:center;}
+h2 {color:white; background: maroon;}
+h3 {width:50%; color: white; background: maroon;}
+h3 a {color:lightblue;}
+h4 {width:33%; border-bottom:dotted 1px maroon;}
+dt {font-weight:bold;}
+dd {margin-bottom:0.5em;}
+li {line-height:1.5em;}
+.navi {text-align:center;}
+table {border-top:1px solid black;border-left:1px solid black;border-collapse:collapse}
+table th {border:0 none;border-right: solid 1px black;border-bottom: solid 1px black;}
+table td {border:0 none;border-right: solid 1px black;border-bottom: solid 1px black;}</style>
+</head>
+<body>
+<h1>Lightweight Google Maps マニュアル</h1>
+<p class="navi">[ <a href="README.ja.html">はじめに</a> | <a href="API.ja.html">API 解説</a> ]</p>
+<h2>はじめに</h2>
+
+<p>プラグイン配布サイト: <a href="http://wppluginsj.sourceforge.jp/lightweight-google-maps/">http://wppluginsj.sourceforge.jp/lightweight-google-maps/</a></p>
+
+<p>※以前からのユーザーさんは、少なくとも「↓<a href="#upgrade">以前のバージョンからの更新方法</a>」と「↓<a href="#history">改版履歴</a>」には目を通しておいてください。</p>
+
+<h3 id="abstract">概要</h3>
+<p>Lightweight Google MapsLightweight Google Maps は、Google マップを各記事または独立の固定ページに表示する WordPress プラグインです。記事に "Lat_Long" という名前のカスタムフィールドがあれば、緯度・経度として扱って、以下の要領でマーカー付きの地図を表示します。</p>
+<dl>
+<dt>(投稿やページ)</dt>
+<dd><ul>
+  <li>指定された緯度・経度を中心とするミニサイズ (既定値は 300x150 ピクセル) の地図。(携帯電話出力では、128x80 ピクセル)</li>
+  <li>または、指定された緯度・経度を中心とする地図ページへのテキストリンク。</li>
+</ul></dd>
+<dt>(独立の地図ページ)</dt>
+<dd><ul>
+  <li>既定値では最新の100箇所にマーカーを打った地図。</li>
+  <li>または、指定したカテゴリー／タグすべての地点にマーカーを打った地図。</li>
+  <li>または、特定の緯度経度を中心とした地図。</li>
+</ul></dd>
+</dl>
+
+<p><a href="http://wppluginsj.sourceforge.jp/ktai_style/">Ktai Style</a> バージョン 1.43 以降または <a href="http://hrlk.com/script/mobile-eye-plus/">Mobile Eye+</a> による携帯電話出力でも地図が表示できます。Ktai Style の場合、各社 3G 端末、ウィルコム、スマートフォン等「今ドキの端末」で閲覧したとき、投稿本文の後ろに小さめの地図 (デフォルトは 128x80 ピクセル) を出力されます (PC 向け地図のようにライブスクロールはできません)。mova, SoftBank PDC は表示できるファイル容量の制約を越えるため地図が出ません。Mobile Eye+ の場合は、閲覧している端末の判別ができないため、どの端末でも地図へのリンクとなります。</p>
+
+<p>また、プラグインの<a href="API.ja.html">内部 API</a> を利用すると、Lat_Long カスタムフィールドに入っている位置情報を KML ファイルとして取得し、Google Earth などで活用することが可能です。</p>
+
+<p>本プラグインは <a href="http://www.yongfook.com/2006/05/28/plug-n-play-google-map/">Plug 'n' Play Google Map プラグイン</a> を参考に制作しましたが、このプラグインでは必須だった <a href="http://dev.wp-plugins.org/wiki/GeoPlugin">Geo プラグイン</a>は不要となっています。また、サムネール表示機能を削除したかわりに、記事の概要を表示させるようにしています。</p>
+
+<p>"Lat_Long" カスタムフィールドに位置情報を格納するには、投稿画面で手入力する他、拙作の <a href=" http://wppluginsj.sourceforge.jp/ktai_location/">Ktai Location プラグイン</a>も利用できます。</p>
+
+<h3 id="requirements">対応環境</h3>
+<ul>
+  <li>WordPress 2.0 以降。2.6 にも対応しています。</li>
+  <li>PHP 4 以降。ただし、ただし、動作確認は PHP5.2.x で行なっていますので、それ以前のバージョンでは動かないかもしれません。PHP 4.x, PHP5.0, PHP5.1 をご利用の場合は、自己責任にてご利用をお願いします。</li>
+  <li>携帯電話での地図出力は、Ktai Style バージョン 1.43 以降もしくは Mobile Eye+ が必要です。Ktai Style 1.42 以前または <a href="http://linux.matchy.net/archives/38">MobilePressNeo</a> には対応しておりません。</li>
+</ul>
+
+<h3 id="installation">設置方法</h3>
+<p>プラグインをインストールするだけでは、うまく動作しません。以下の設置方法を良く読んで作業してください。</p>
+<ol>
+  <li>現在、Geo プラグイン、<a href="http://wppluginsj.sourceforge.jp/wp-eznavi/">wp-eznavi プラグイン</a>、Plug 'n' Play Google Map プラグイン等を利用している場合は、無効にしておきます。</li>
+  <li>プラグインをダウンロードして展開し、FTP ソフト等で lightweight-google-maps フォルダごと、サーバーのプラグインディレクトリー (wp-content/plugins/) に転送します。なお、*.html および lang/*.po は動作には不要なので削除してかまいません。<br />
+  <strong>※※プラグインはまだ有効にしないでください。※※</strong></li>
+  <li>次は、地図表示の固定ページを作ります。管理画面の投稿→ページ作成で、新規に固定ページを作ります。そして、地図を表示させたい部分に以下の空の div 要素2つを置きます。Plug 'n' Play Google Map を利用していた場合、"yf_map" という div 要素を修正すれば OK です。
+<pre>&lt;div id="gmap_menu"&gt;&lt;/div&gt
+&lt;div id="google_maps"&gt&lt;/div&gt</pre>
+  (注意) 地図ページの作成は必須ではありません。</li>
+  <li>テンプレートを修正します。フッターのテンプレート (footer.php) に、以下の記述がなければ追加しておきます。あればそのままで構いません。フッターテンプレートが存在しない場合は、サイドバーのテンプレート (sidebar.php) を確認し、それもなければ、メインインデックス (index.php)、ページ (page.php) テンプレートを確認してください。
+  <pre>&lt;?php wp_footer(); ?&gt;</pre></li>
+  <li>投稿・ページのミニサイズの地図 (または固定ページへのリンク) は、記事の末尾に自動的に挿入されます。特に作業はいりません。</li>
+  <li>いよいよ Lightweight Google Maps プラグインを有効にします。</li>
+  <li>設定→Google Maps で設定項目を入力します。API キーは必須ですが、それ以外の項目は入力しなくても構いません (デフォルト値が適用されます)。ページ ID を空にすると固定の地図ページは作られません。Google マップの API キーを持っていなければ、<a href="http://www.google.com/apis/maps/signup.html">Google から取得</a>してください。</li>
+  <li>Plug 'n' Play Google Map プラグインを利用していた場合、設定値が引き継がれています。そのまま「設定を更新する」ボタンを押せば、本プラグインの設定値として使われます (更新ボタンを押すまでは無効です)。このとき、Plug 'n' Play Google Map プラグインのオプション値は削除されます。</li>
+  <li>Geo プラグイン等を使っていた場合は、管理画面の一番下にあるチェックボックスをオンにしておいて、設定を更新します。こうすると、Geo プラグイン用の位置情報 (_geo_location カスタムフィールド) が Lat_Long カスタムフィールドに変換されます。</li>
+  <li>これで地図が表示されるはずです。お楽しみください。</li>
+</ol>
+<p>以上で完了です。WordPress 2.3 以降を使っている場合、本プラグインの更新を知らせるために、別途「<a href="http://wppluginsj.sourceforge.jp/jseries-notifier/">JSeries Notifier</a>」をインストールされることをおすすめします。</p>
+
+<h4 id="move_wpcontent">wp-content もしくは wp-content/plugins ディレクトリーを移設する場合</h4>
+<p>WordPress 2.6 以降で可能になった、wp-content ディレクトリーや wp-content/plugins ディレクトリーの移設を行う場合、lightweight-google-maps/wp-load.php の修正が必要です。</p>
+<p>8行目にある <code>$wp_root</code> 変数を変更して、WordPress インストールディレクトリーへの絶対パスを示すようにしてください。通常のインストールでは、<code>dirname(dirname(dirname(dirname(__FILE__)))) . '/';</code> でよいですが、wp-content ディレクトリーを移設すると違う記述が必要です。</p>
+<dl>
+<dt>例: WordPress ディレクトリーが /home/foo/public_html/wp で、wp-content ディレクトリーが /home/foo/public_html/wp-content の場合</dt>
+<dd><code>$wp_root = dirname(dirname(dirname(dirname(__FILE__)))) . '/wp/';</code> とします。</dd>
+</dl>
+
+<h3 id="upgrade">以前のバージョンからの更新方法</h3>
+<dl>
+<dt id="upgrade-from130">1.30 以前からのアップグレード</dt>
+<dd>サーバーの lightweight-google-maps ディレクトリー直下にある *.po, *.mo ファイルは使いませんので、削除しておいてください。言語リソースは lang フォルダに格納するようになりました。</dd>
+<dt id="upgrade-from100">1.00, 1.01 からのアップグレード</dt>
+<dd>原則としてページテンプレートの修正は不要になりました。ページテンプレートから、以下のコードを削除しておいてください。<pre>
+	&lt;?php if (function_exists('lwgm_dropdown_cats')) {
+		lwgm_dropdown_cats();
+		lwgm_geocoding();
+	} ?&gt;</pre></dd>
+<dt id="upgrade-from099">1.00 より前のバージョンからのアップグレード</dt>
+<dd>1.00 より前のバージョンからのアップグレードは、以下の手順で行なってください。<ol>
+  <li>念のため、本プラグインを無効にします。</li>
+  <li>すべての php ファイル, mo ファイルを lightweight-google-maps ディレクトリーに転送してファイルを上書きします。googlemaps.php というファイルが残っている場合、必ず削除してください。</li>
+  <li>プラグインを有効にします。もし、Lightweight Google Maps プラグインが2つ表示される場合は、googlemaps.php がまだ消されていません。削除してください。</li>
+  <li>古い設定値を引き継ぐため、管理画面で、プラグイン→ Google Maps のタブを選択します。Ver0.9.9.1 以降、固定の地図ページの設定値が「ページスラッグ」から「ページ ID」に変更されていますので、ここは必ず変更してください。</li>
+  <li>「設定を更新する」を実行します。これを実行しないと、Google Maps API キーが無効という警告が出ることがあります。</li>
+  <li>Ver 0.8.0 以前をお使いで、テンプレートの「メインインデックス」に lwgm_button() または lwgm_each_map() 関数を記入していた場合、その周辺の記述を削除してください。注意深く削除しないと、テンプレートが PHP コンパイルエラーを起こしてしまい、画面が真っ白になってしまいますので、管理画面のテーマエディタではなく、テーマファイルを手元に FTP 等で転送して編集することをおすすめします。</li>
+</ol></dd>
+</dl>
+
+<h3 id="purge">プラグインの撤去</h3>
+<p>プラグインの使用を中止して、撤去するには以下の手順で行なってください。</p>
+<ol>
+  <li>管理画面の「Google Maps」で、一番下にある「オプション値をデフォルトに戻す」をクリックします。このとき、「位置情報もすべて削除」チェックボックスをオンにしていると、各投稿に記録された Lat_Long カスタムフィールドも同時に削除します。</li>
+  <li>プラグインを無効にします。</li>
+  <li>FTP ツール等で、wp-content/plugins から lightweight-google-maps ディレクトリーを丸ごと削除します。</li>
+</ol>
+
+<h3 id="usage">使用方法</h3>
+<ul>
+  <li>位置情報を登録するには、投稿画面でカスタムフィールドの追加を行います。キー名は "Lat_Long" で、値は緯度・経度をコンマ区切りで繋げたものにします。<br />
+  (例: 35.608797685462,139.56014977271)</li>
+  <li>また、拙作の Ktai Location プラグインを使えば、ケータイからの投稿時に位置情報を Lat_Long カスタムフィールドに格納することが可能です。</li>
+  <li>位置情報が付与されている記事 (Lat_Long カスタムフィールドを持つ記事) の下に、ミニサイズの地図が表示されます。設定によっては、テキストでのリンクが表示されます。地図のマーカーまたはリンクをクリックすると、固定ページの地図にて、その地点を中心とした狭い範囲を表示します。</li>
+  <li>記事に複数の位置情報があるときは、位置情報の件数だけ地図が複数表示されます。
+  <li>固定の地図ページを表示させたとき、まずは、最近の位置情報を100件読み込んでマーカーを打ちます。</li>
+  <li>地図ページで、カテゴリーをプルダウンメニューから選ぶと、そのカテゴリーで投稿された記事の位置情報をすべて表示します。</li>
+  <li>入力フィールドに住所やランドマーク名称、またはキーワードタグを入力して「表示」ボタンを押すと、その場所を中心とした比較的狭い範囲の地図を表示します。</li>
+</ul>
+
+<h3 id="restrictions">制限事項</h3>
+<ul>
+  <li>携帯用地図のサイズは、横幅240px、縦幅320px が最大です。それより大きい値には設定できません。</li>
+  <li><a href="http://getk2.com/">K2 テーマ</a>を利用している場合、本プラグインはうまく動作しないかもしれません。古いバージョンの K2 では、テーマのスタイルシートが Google Maps に影響して地図が出ませんでした。できるだけ新しいバージョンの K2 をご利用ください。</li>
+</ul>
+
+<h3 id="yangfook">Plug 'n' Play Google Map を利用していた場合の注意</h3>
+<ul>
+  <li>Ver.0.9.9 以降、プラグインの設定値を Plug 'n' Play Google Map プラグインと共通にするのはやめました。ただし、管理画面では、Plug 'n' Play Google Map プラグインの設定値を読み込みます。「設定を更新する」ボタンを押すと、本プラグインの設定値として設定し、 Plug 'n' Play Google Map プラグインのオプションはすべて削除します (Use thumbnail など、当プラグインで使ってない機能のオプションも削除)。</li>
+  <li>読み取る位置情報は Geo プラグインと非互換になりました (フォーマットはほぼ同一ですが;-)。そのかわり、Geo プラグインなしで動作するようになりました。</li>
+  <li>すべての地点をマークせず、表示対象の位置情報を限定するようにしました。</li>
+  <li>利用するメモリーが少なくなるよう工夫しています。すべての地点を表示しないため、1000箇所以上の位置情報を持っていても、メモリー不足になることはありません。</li>
+</ul>
+
+<h2 id="history">改版履歴</h2>
+<dl>
+<dt id="ver140">ver 1.40 (2008-08-09)</dt>
+<dd><ul>
+  <li>WordPress 2.0.x に再び対応することにしました。</li>
+  <li>携帯電話での地図表示は Mobile Eye+ にも対応しました。ただし、「この場所の地図」というテキストリンクになります。</li>
+  <li>Ktai Location 1.0.0 以降で導入した、Lat_Long フィールドの第3引数 (高さ) に対応しました。以前のバージョンは非対応のため、高さフィールドを持つ Lat_Long フィールドを認識しない場合がありました。</li>
+  <li>衛星写真のみの表示を廃止し、地形図を表示できるようにしました。ただし、以前のバージョンで衛星写真の表示を設定している場合は、設定パネルで設定を変更しない限り、そのまま表示されます。</li>
+  <li>独立の地図ページを開いたとき、最新地点のマーカーに対して情報ウィンドウが出るようにしました。また、投稿に出た地図のマーカーをクリックして独立の地図ページにジャンプしたときはその地点のマーカーに情報ウィンドウが出るようにしました。</li>
+  <li>独立の地図ページにおいて、同一地点に複数の投稿があるときはタブウィンドウにして、マーカーが重ならないようにしました。ただし、微妙に位置情報がズレているときは、タブウィンドウにならずマーカーが重なってしまうことがあります。</li>
+  <li>独立の地図ページにおいて、固定ページで設定した位置情報 (Lat_Long フィールド) を認識してマーカーが打たれるようになりました。従来は、地図ページで打たれるマーカーは、投稿で設定されたものだけでした。</li>
+  <li>独立の地図ページで、カテゴリーの絞り込みメニューは、「表示」ボタンを廃止して、メニューを選択するだけで済むようにしました。</li>
+  <li>WordPress 2.6 以降で、wp-content/ ディレクトリーもしくは wp-content/plugins/ ディレクトリーを移設した場合に対応しました。lightweight-google-maps/wp-load.php の書き換えが必要です。</li>
+  <li>各投稿に記録された Lat_Long カスタムフィールドをすべて削除する機能がつきました。プラグインの削除時などにご利用ください。</li>
+</ul></dd>
+<dt id="ver130">ver 1.30 (2008-07-12)</dt>
+<dd><ul>
+<li>固定ページの地図で、キーワードタグでの絞り込みに対応しました (WordPress 2.3 以降が必要)。</li>
+  <li>携帯電話向け地図を出す機能は Ktai Style 1.42 以降が必要となりました (Ktai Style 1.41 以前では地図が出ません)。</li>
+  <li>WordPress 2.6 ベータ版への対応を盛り込みました。</li>
+  <li>各エントリーの地図を「固定ページへのリンク」にしている場合、「この位置を大きい地図で見る」リンクが出力されない不具合を修正しました (バージョン 1.20 で発生した不具合)。</li>
+</ul></dd>
+<dt id="ver121">ver 1.21 (2008-03-23)</dt>
+<dd><ul>
+  <li>携帯電話向け地図の大きさを設定できるようにしました。</li>
+  <li>複数の位置情報を持つ投稿で、同じ地図がダブってしまう問題を修正しました。</li>
+</ul></dd>
+<dt id="ver120">ver 1.20 (2008-03-14)
+<dd><ul>
+  <li>Ktai Style 1.20 以後を利用している場合、携帯電話でも地図が出るようにしました。</li>
+  <li>WordPress 2.5 への対応を盛り込みました。</li>
+  <li>設定画面の場所を、「プラグイン」タグから、「設定」または「各種設定」タブに戻しました。</li>
+</ul></dd>
+<dt id="ver130">ver 1.10 (2007-09-27)</dt>
+<dd><ul>
+  <li>WordPress 2.3 に対応しました。そのかわり、2.0.x 以前では動かなくなりました。</li>
+  <li>ページテンプレートを修正しなくても、カテゴリー絞り込みメニューと地名検索フィールドが表示されるようにしました。</li>
+  <li>設定画面の場所を、オプション→Google Maps からプラグイン→Google Maps に移動しました。</li>
+</ul></dd>
+<dt id="ver101">ver 1.01 (2007-03-12)</dt>
+<dd><ul>
+  <li>WordPress のアドレス (get_settings('siteurl')) と、ウェブログのアドレス (get_settings('home')) が違う環境において、固定ページの地図でマーカーが出ないバグを修正しました。
+</ul></dd>
+<dt id="ver100">ver 1.00 (2007-02-28)</dt>
+<dd><ul>
+  <li>正式版としてリリース。</li>
+  <li>プラグイン本体のファイル名を lw_googlemaps.php に変更しました。</li>
+  <li>固定の地図ページを表示させたとき、地図が描画されるタイミングを少し早くして体感速度を向上しました (描画完了までの時間は従来と変わりません)。</li>
+  <li>固定の地図ページが XHTML の文法エラーになっていたのを修正しました。</li>
+  <li>プラグインが Ajax 的に利用する位置情報取得 API に KML 出力機能をつけました。詳細は付属の API 解説マニュアルを見てください。</li>
+</ul></dd>
+<dt id="ver0991">ver 0.9.9.1 (2007-02-23)</dt>
+<dd><ul>
+  <li>パーマリンクを使わない場合、各記事の個別地図から固定の地図ページへのリンクが不正だった問題を修正しました。このため、管理画面では、固定の地図ページのスラッグではなくページ ID を入力させることにしました。</li>
+  <li>Shift_JIS 動作ウェブログのローカライズに対応しました。</li>
+</ul></dd>
+<dt id="ver099">ver 0.9.9 (2007-02-17)</dt>
+<dd><ul>
+  <li>EUC-JP 動作のウェブログでのローカライズに対応しました。</li>
+  <li>住所やランドマークを指定して、その位置に移動する機能を追加しました。</li>
+  <li>カテゴリーでの絞り込みは、ページの再読み込みをせず Ajax 的な非同期な動作に変更しました。</li>
+  <li>オプション値を Plug 'n' Play Google Map と共通にするのをやめて、本プラグイン独自の設定値としました。管理画面で Plug 'n' Play Google Map の設定値を読み込んで本プラグインの値として設定できます。詳細は設置方法／アップグレード方法を参照ください。</li>
+  <li>作者 URI を変更しました。</li>
+</ul></dd>
+<dt id="ver0981">ver 0.9.8.1 (2007-02-13)</dt>
+<dd><ul>
+  <li>固定の地図ページでは、位置情報マーカーの取り込みを Ajax 的な非同期な動作に変更しました。</li>
+  <li>各記事のミニサイズ地図、およびミニサイズ地図からマーカーをクリックして表示される場所指定地図の拡大率を管理画面で指定できるようにしました。</li>
+  <li>場所指定地図でにおける位置情報マーカーは、地図が見えている範囲ぎりぎりだけを抽出するようにしました (以前のバージョンでは、抽出する範囲の決定がアドホックな不正確な方法でした)。</li>
+  <li>固定の地図ページでカテゴリー指定したときの拡大率は、すべての位置情報マーカーが入るような値を自動調整するようにしました。</li>
+</ul></dd>
+<dt id="ver090">ver 0.9.0 (2007-01-31)</dt>
+<dd><ul>
+  <li>複数の位置情報に対応しました。各記事では、位置情報の数だけ地図を表示します。</li>
+  <li>各記事へのミニサイズの地図は、テンプレートの修正なしに表示されるようにしました。</li>
+  <li>緯度・経度を指定して固定ページの地図を表示させたとき (各記事のミニサイズの地図のマーカーをクリックしたときなど) の表示速度を改善しました。</li>
+</ul></dd>
+<dt id="ver080">ver 0.8.0 (2007-01-24)</dt>
+<dd><ul>
+  <li>PHP 5 専用予約語を削除して PHP 4.x 環境に配慮しました。</li>
+  <li>Map View ボタンではなくミニサイズの地図を表示する機能を追加しました。</li>
+  <li>Map View ボタンの同梱をやめました。</li>
+  <li>配布サイトを WordPress Plugins/JSeries に変更しました。</li>
+</ul></dd>
+<dt id="ver070">ver 0.7.0 (2007-01-18)</dt>
+<dd><ul>
+  <li>新規リリース。</li>
+</ul></dd>
+</dl>
+
+<h2 id="rights">著作権について</h2>
+<p>本プラグインのライセンスは GPL v2 とし、著作権は作者である IKEDA Yuriko が保有します。</p>
+</body>
+</html>

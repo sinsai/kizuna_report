@@ -1,0 +1,161 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: lightweight-google-maps 1.40\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-08-05 20:07+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Japanese\n"
+"X-Poedit-Country: JAPAN\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+# ----- lw_googlemaps.php --------------------------------------------------
+msgid "View this location on my large map &raquo;"
+msgstr "この位置を大きい地図で見る &raquo;"
+
+msgid "Click to view my large map."
+msgstr "クリックで大きい地図を閲覧"
+
+msgid "Map of this location"
+msgstr "この場所の地図"
+
+msgid "Refine by category:"
+msgstr "カテゴリーで絞り込み:"
+
+msgid "Show"
+msgstr "表示"
+
+msgid "Refine by tag:"
+msgstr "キーワードタグで絞り込み:"
+
+msgid "Move to an address or a landmark:"
+msgstr "住所・ランドマークに移動:"
+
+msgid ": Could not find the latitude/longitude of this place."
+msgstr "の緯度・経度が分かりませんでした。"
+
+# ----- prefpane.php --------------------------------------------------
+msgid "Your Googlemap API Key"
+msgstr "あなたの Google Maps API キー"
+
+msgid "API Key:"
+msgstr "API キー:"
+
+msgid "(don't have one? get one <a href=%s>here</a>)"
+msgstr "(持ってませんか? <a href=%s>サインアップ</a>してゲットしよう)"
+
+msgid "Current API Key:"
+msgstr "現在の API キー:"
+
+msgid "Map on fixed pages"
+msgstr "固定ページ用地図"
+
+msgid "Page ID:"
+msgstr "ページID:"
+
+msgid "(Leave empty no to use the fixed map)"
+msgstr "(空白にすると固定ページを使いません)"
+
+msgid "This is a numeric id of the map page. You can find the id number from <a href=\"edit-pages.php\">the Manage/Pages screen</a>."
+msgstr "これは、地図ページのID (数値) です。<a href=\"edit-pages.php\">管理／ページ</a>で ID を調べられます。"
+
+msgid "Type:"
+msgstr "種類:"
+
+msgid "Graphic"
+msgstr "地図"
+
+msgid "Satellite"
+msgstr "航空写真"
+
+msgid "Hybrid"
+msgstr "地図+写真"
+
+msgid "Terrain"
+msgstr "地形"
+
+msgid "Width:"
+msgstr "横幅:"
+
+msgid "(Default: Follow window size)"
+msgstr "(デフォルト: ウィンドウサイズに追従)"
+
+msgid "Height:"
+msgstr "縦幅:"
+
+msgid "(Default: %dpx)"
+msgstr "(デフォルト: %dpx)"
+
+msgid "Zoom level of recent locations:"
+msgstr "最近の位置情報地図の拡大率:"
+
+msgid "(1: Whole globe, Bigger: Narrower area)"
+msgstr "(1: 地球全体, 大きいほど狭い範囲)"
+
+msgid "Number of recent location markers:"
+msgstr "最近の位置情報マーカー表示数:"
+
+msgid "points"
+msgstr "箇所"
+
+msgid "Zoom level of addressed map:"
+msgstr "場所指定地図の拡大率:"
+
+msgid "Map for each entries"
+msgstr "各エントリー用地図"
+
+msgid "Zoom level:"
+msgstr "拡大率:"
+
+msgid "Link to my fixed map"
+msgstr "固定地図へのリンク"
+
+msgid "Map for mobile"
+msgstr "携帯用地図"
+
+msgid "(Default: %dpx, Max: %dpx)"
+msgstr "(デフォルト: %dpx、最大: %dpx)"
+
+msgid "Convert geo locations"
+msgstr "位置情報の変換"
+
+msgid "Convert location data from Geo plugin."
+msgstr "Geo プラグインの位置情報を変換する。"
+
+msgid "Notice: Please de-activate Geo plugin and wp-eznavi plugin BEFORE checking this option."
+msgstr "注意: まず、Geo プラグインおよび wp-eznavi プラグインを無効にしてから、このオプションをチェックしてください。"
+
+msgid "Delete Options"
+msgstr "オプションの削除"
+
+msgid "Options Deleted."
+msgstr "オプションを削除しました。"
+
+msgid "Delete all locations (Lat_Long custom field) from posts and pages."
+msgstr "すべての位置情報 (Lat_Long カスタムフィールド) を投稿やページから削除する。"
+
+msgid "Delete option values and revert them to default &raquo;"
+msgstr "オプション値を削除してデフォルトに戻す &raquo;"
+
+msgid "Do you really delete option values and revert them to default?"
+msgstr "オプション値を削除してデフォルトに戻していいですか。"
+
+# ----- locations.php --------------------------------------------------
+msgid "Around %s"
+msgstr "範囲:%s"
+
+msgid "Category:"
+msgstr "カテゴリー:"
+
+msgid "Tag:"
+msgstr "タグ:"
+
+msgid "Date:"
+msgstr "日付:"
+
+msgid "Recent %d points"
+msgstr "最近の %d 地点"
+

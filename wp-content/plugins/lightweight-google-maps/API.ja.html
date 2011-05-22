@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Lightweight Google Maps 説明書</title>
+<style type="text/css">
+h1 {text-align:center;}
+h2 {color:white; background: maroon;}
+h3 {width:50%; color: white; background: maroon;}
+h3 a {color:lightblue;}
+h4 {width:33%; border-bottom:dotted 1px maroon;}
+dt {font-weight:bold;}
+dd {margin-bottom:0.5em;}
+li {line-height:1.5em;}
+.navi {text-align:center;}
+table {border-top:1px solid black;border-left:1px solid black;border-collapse:collapse}
+table th {border:0 none;border-right: solid 1px black;border-bottom: solid 1px black;}
+table td {border:0 none;border-right: solid 1px black;border-bottom: solid 1px black;}</style>
+</head>
+<body>
+<h1>Lightweight Google Maps マニュアル</h1>
+<p class="navi">[ <a href="README.ja.html">はじめに</a> | <a href="API.ja.html">API 解説</a> ]</p>
+<h2>API 解説</h2>
+
+<h3 id="abstract">概要</h3>
+<p>Lightweight Google Maps が内部的に持っている API の解説です。ウェブログで登録した位置情報を他のアプリケーションで活用することができます。具体的には、位置情報の絞り込み条件をつけて API を呼び出すと、希望するフォーマットで位置情報が返されるという仕組みです。</p>
+<h4 id="conditions">絞り込み条件</h4>
+<ul>
+  <li>最近 nn 件の位置情報</li>
+  <li>カテゴリー ID: nn に属する記事にある位置情報</li>
+  <li>タグスラッグ slugw に属する記事にある位置情報</li>
+  <li>日付 YYYY-mm-dd に投稿された記事にある位置情報</li>
+  <li>範囲 (y1, x1, y2, x2) にある位置情報 (y1,x1 は南西の緯度・経度、y2,x2 は北東の緯度・経度)</li>
+</ul>
+<h4 id="formats">出力フォーマット</h4>
+<ul>
+  <li>独自 <abbr title="Extensible Markup Language">XML</abbr> 形式 (プラグイン内部で利用)</li>
+  <li><a href="http://earth.google.co.jp/userguide/ug_kml.html">KML 形式</a> (<a href="http://earth.google.co.jp/">Google Earth</a> などで利用可能)</li>
+</ul>
+
+<h3 id="access">アクセス方法</h3>
+<p>API 本体はプラグインのディレクトリーにある locations.php ファイルです。したがって、このファイルを HTTP で直接呼び出せば OK です。絞り込み条件は GET パラメーターとして付与します。</p>
+<p><code>http://example.jp/</code> がウェブログの URL とすると、API の URL は <br />
+<code>http://example.jp/wp-content/plugins/lightweight-google-maps/locations.php</code><br />
+となります (プラグインのディレクトリー名がデフォルトの場合)。絞り込み条件はその後ろに ? を置いて記述します。</p>
+<dl>
+<dt><code>?format=kml&amp;recent=100</code></dt>
+  <dd>最新100地点を KML で出力</dd>
+<dt><code>?format=kml&amp;category=2</code></dt>
+  <dd>カテゴリー ID: 2 の記事に登録された位置情報を KML で出力</dd>
+<dt><code>?format=kml&tag=slug</code></dt>
+  <dd>タグスラッグ「slug」が付与された記事に登録された位置情報を KML で出力</dd>
+<dt><code>?format=kml&amp;date=2007-02-24</code></dt>
+  <dd>2007年2月24日に投稿された記事の位置情報を KML で出力</dd>
+<dt><code>?format=kml&amp;bounds=y1,x1,y2,x2</code></dt>
+  <dd>y1,x1,y2,x2 で示される範囲にある位置情報を KML で出力。</dd>
+</dl>
+
+<h3 id="usage">KML の使い方</h3>
+<p>ウェブブラウザーで上記のような URL にアクセスすると、KML ファイルが保存される
+はずです (ファイル名はブラウザーによって異なります)。手動で kml という拡張子を補
+ったり、ファイル名を適宜変更してください。これを Google Earth に読み込ませると、自動的にすべての位置がちょうど入るような拡大率で閲覧できるでしょう。</p>
+<p>API アクセス用の URL を、KML を解釈するウェブサービスに読み込ませる方法もあります。例えば、Google マップの検索フィールドに API アクセス用 URL を記入してみると、左側に場所リストが出て、右側の地図にはマーカーが打たれた画面になるはずです。ただし、Google マップは最大50件しか位置情報が扱えませんので、ご注意を。</p>
+<p>他にも、KML の楽しい使い方があれば、<a href="http://www.yuriko.net/cat/wordpress/">作者</a>まで連絡をお願いしますです。</p>
+
+<h3 id="notice">注意事項</h3>
+<ul>
+  <li>プラグインを停止すると API も停止します。</li>
+  <li>API は第三者からのアクセスも受け付けます。すなわち、本プラグイン (のバージョン 0.9.8 以降) を設置した場合、自分がウェブログに登録した位置情報に、第三者が簡単にアクセスできることを意味します。</li>
+  <li>本プラグインを設置した時点で、位置情報が全世界に公開されているわけで、API を制限してもあまり意味がないと考えています。ウェブサイトのクロールソフトを使えば、API を使わなくても位置情報をごっそり取得することは可能ですから。</li>
+</ul>
+
+</body>
+</html>
