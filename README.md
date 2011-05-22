@@ -25,6 +25,7 @@ WordPress( http://wordpress.com/ )をカスタマイズして絆レポート用�
     + http://sourceforge.jp/projects/wppluginsj/
         + Lightweight Google Maps
         + Ktai Location
++ 投稿用ハガキのプロトタイプ作った。→ [投稿ハガキ(PDF)](https://docs.google.com/viewer?a=v&pid=explorer&chrome=true&srcid=0B3K_pzBHj61SMmQwMmUyYjQtODI5ZS00ODY5LWFlZGEtYjUwMTBmYmJmNGI1&hl=en_US&pli=1)
 
 環境まわり
 ---------
